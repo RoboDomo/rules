@@ -23,11 +23,15 @@ class Triggers extends EventEmitter {
                 const weather = JSON.parse(message.toString()),
                       sunrise = new Date(weather.sunrise * 1000),
                       sunset = new Date(weather.sunset * 1000),
-                      now = Date.now
+                      now = Date.now()
 
-                if (now > sunset) {
+                if (sunset > sunrise && now > sunset) {
                     console.log('after sunset, trigger')
                     this.emit('sunset', sunset)
+                    if (this.sunset) {
+                        console.log('sunset cancelled')
+                        this.sunset.cancel()
+                    }
                 }
                 else {
                     if (this.sunset) {
@@ -40,7 +44,8 @@ class Triggers extends EventEmitter {
                         this.emit('sunset', sunset)
                     })
                 }
-                if (now > sunrise) {
+
+                if (sunrise > sunset && now > sunrise) {
                     console.log('after sunrise, trigger')
                     this.emit('sunrise', sunrise)
                 }
@@ -75,24 +80,7 @@ function outside_lights() {
           lights = null
 
     console.log('outside_lights rule')
-    triggers.on('sunrise', (sunrise) => {
-        if (lights !== off) {
-            console.log('sunrise', 'turning ligts off')
-            const timer = setInterval(() => {
-                console.log('timer turning lights off')
-                if (lights !== 'off') {
-                    triggers.publish(LIGHTS, 'off')
-                }
-                else {
-                    console.log('sunrise', 'lights are off')
-                    clearInterval(timer)
-                }
-            }, 10000)
-        }
-        else {
-            console.log('sunrise', 'lights already off')
-        }
-    })
+
     triggers.on('sunset', (sunset) => {
         if (lights !== 'on') {
             console.log('sunset', 'turning ligts on')
@@ -109,6 +97,25 @@ function outside_lights() {
         }
         else {
             console.log('sunset', 'lights already on')
+        }
+    })
+    
+    triggers.on('sunrise', (sunrise) => {
+        if (lights !== 'off') {
+            console.log('sunrise', 'turning ligts off')
+            const timer = setInterval(() => {
+                console.log('timer turning lights off')
+                if (lights !== 'off') {
+                    triggers.publish(LIGHTS, 'off')
+                }
+                else {
+                    console.log('sunrise', 'lights are off')
+                    clearInterval(timer)
+                }
+            }, 10000)
+        }
+        else {
+            console.log('sunrise', 'lights already off')
         }
     })
     triggers.on('lights', (state) => {
