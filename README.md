@@ -10,8 +10,7 @@ to do with rules is limited only to what you can imagine.
 
 In my case, I want:
 
-### Bathroom
-1. When the motion sensor senses activity/motion, I want to turn on the ligts.
+1. When the bathroom motion sensor senses activity/motion, I want to turn on the ligts.
 However, if it's after 9PM, I want the lights on at 20%, which is easy
 on the eyes after you've been sleeping.  During the day, I want 100%.
 If there hasn't been motion after an hour, turn the lights off.
