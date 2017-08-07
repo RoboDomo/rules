@@ -1,0 +1,30 @@
+{
+  "name": "rules",
+  "version": "1.0.0",
+  "description": "Rules engine for autodomo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/autodomo/rules.git"
+  },
+  "keywords": [
+    "home",
+    "automation",
+    "autodomo",
+    "microservices",
+    "javascript"
+  ],
+  "author": "Michael Schwartz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/autodomo/rules/issues"
+  },
+  "homepage": "https://github.com/autodomo/rules#readme",
+  "dependencies": {
+    "mqtt": "^2.11.0",
+    "node-schedule": "^1.2.3"
+  }
+}
