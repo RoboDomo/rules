@@ -20,11 +20,12 @@ class Triggers extends EventEmitter {
         client.on('message', (topic, message) => {
             message = message.toString()
             if (topic === NOW) {
-                const now = JSON.parse(message.toString()),
-                      sunrise = new Date(now.sunrise * 1000),
-                      sunset = new Date(now.sunset * 1000)
+                const weather = JSON.parse(message.toString()),
+                      sunrise = new Date(weather.sunrise * 1000),
+                      sunset = new Date(weather.sunset * 1000),
+                      now = Date.now
 
-                if (Date.now > sunset) {
+                if (now > sunset) {
                     console.log('after sunset, trigger')
                     this.emit('sunset', sunset)
                 }
@@ -39,7 +40,7 @@ class Triggers extends EventEmitter {
                         this.emit('sunset', sunset)
                     })
                 }
-                if (Date.now > sunrise) {
+                if (now > sunrise) {
                     console.log('after sunrise, trigger')
                     this.emit('sunrise', sunrise)
                 }
